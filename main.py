@@ -9,4 +9,4 @@ warnings.filterwarnings("ignore")
 
 if __name__ == "__main__":
     synth_main(args)
-    valid_main(args)
+    # valid_main(args) 

@@ -44,6 +44,8 @@ def init_images(args, model=None):
         num_workers=args.workers,
         pin_memory=False,
     )
+    image_list = []
+    label_list = []
 
     for c, (images, labels) in enumerate(tqdm(train_loader)):
         images = selector(
@@ -57,6 +59,17 @@ def init_images(args, model=None):
         images = mix_images(images, args.input_size, args.factor, args.ipc)
         save_images(args, denormalize(images), c)
 
+def save_images_to_pt(args, image_list, label_list):
+    # 初始化保存路径
+    save_path = os.path.join(args.syn_data_path, "dataset.pt")  # 保存为 dataset.pt 文件
+
+    # 将列表中的张量拼接成一个大张量
+    images_tensor = torch.cat(image_list, dim=0)  # 将 image_list 合并成一个张量
+    labels_tensor = torch.cat(label_list, dim=0)  # 将 label_list 合并成一个张量
+
+    # 保存为 .pt 文件
+    torch.save([images_tensor, labels_tensor], save_path)
+    print(f"Saved entire dataset to {save_path}")
 
 def save_images(args, images, class_id):
     for id in range(images.shape[0]):

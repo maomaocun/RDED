@@ -58,7 +58,8 @@ def init_images(args, model=None):
         )
         images = mix_images(images, args.input_size, args.factor, args.ipc)
         save_images(args, denormalize(images), c)
-
+    save_images_to_pt(args, image_list, label_list)
+    
 def save_images_to_pt(args, image_list, label_list):
     # 初始化保存路径
     save_path = os.path.join(args.syn_data_path, "dataset.pt")  # 保存为 dataset.pt 文件

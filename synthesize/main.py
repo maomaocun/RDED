@@ -57,6 +57,8 @@ def init_images(args, model=None):
             m=args.num_crop,
         )
         images = mix_images(images, args.input_size, args.factor, args.ipc)
+        image_list.append(denormalize(images))
+        label_list.append(labels[:args.ipc])
         save_images(args, denormalize(images), c)
     save_images_to_pt(args, image_list, label_list)
     
